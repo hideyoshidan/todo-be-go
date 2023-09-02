@@ -1,0 +1,1112 @@
+openapi: 3.0.3
+info:
+  title: TODO APP
+  description: 
+    TODO Application APIs
+  version: 1.0.11
+tags:
+  - name: users
+    description: Everything about user
+  - name: tasks
+    description: Everything about task
+  - name: FE selector
+    description: List that front uses
+  - name: settings
+    description: Operations about user
+
+paths:
+# =======================================================
+# users
+# =======================================================
+  # ---------- users: sign-up
+  /sign-up:
+    post:
+      tags:
+        - users
+      summary: Register User
+      description:
+        Create new user and store.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Register'
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        400:
+          description: validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        500:
+          description: internale server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Internal'
+        405:
+          $ref: '#/components/schemas/MethodNotAllowed'
+        502:
+          $ref: '#/components/schemas/BadGateway'
+        503:
+          $ref: '#/components/schemas/ServiceUnavailable'
+        504:
+          $ref: '#/components/schemas/GatewayTimeout'
+
+  # ---------- users: sign-in
+  /sign-in:
+    post:
+      tags:
+        - users
+      summary: Sign in User
+      description:
+        sign in.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SiginIn'
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        500:
+          description: internale server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Internal'
+        403:
+          $ref: '#/components/schemas/Forbidden'
+        405:
+          $ref: '#/components/schemas/MethodNotAllowed'
+        502:
+          $ref: '#/components/schemas/BadGateway'
+        503:
+          $ref: '#/components/schemas/ServiceUnavailable'
+        504:
+          $ref: '#/components/schemas/GatewayTimeout'
+
+  # ---------- users: sign-out
+  /sign-out:
+    delete:
+      tags:
+        - users
+      summary: Sign out User
+      description:
+        sign out.
+      security:
+        - bearerAuth: []  
+      responses:
+        204:
+          description: successful operation
+        500:
+          description: internale server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Internal'
+        403:
+          $ref: '#/components/schemas/Forbidden'
+        405:
+          $ref: '#/components/schemas/MethodNotAllowed'
+        502:
+          $ref: '#/components/schemas/BadGateway'
+        503:
+          $ref: '#/components/schemas/ServiceUnavailable'
+        504:
+          $ref: '#/components/schemas/GatewayTimeout'
+
+  # ---------- users: delete account
+  /delete-account:
+    delete:
+      tags:
+        - users
+      summary: Delete user
+      description:
+        Delete user account from TODO APP
+      security:
+        - bearerAuth: []  
+      responses:
+        204:
+          description: successful operation
+        500:
+          description: internale server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Internal'
+        403:
+          $ref: '#/components/schemas/Forbidden'
+        405:
+          $ref: '#/components/schemas/MethodNotAllowed'
+        502:
+          $ref: '#/components/schemas/BadGateway'
+        503:
+          $ref: '#/components/schemas/ServiceUnavailable'
+        504:
+          $ref: '#/components/schemas/GatewayTimeout'
+
+  # ---------- users: informations
+  /user:
+    # ------- GET
+    get:
+      tags:
+        - users
+      summary: Get user information
+      description:
+        Tokenからuser情報を取得する
+      security:
+        - bearerAuth: []  
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          description: validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        500:
+          description: internale server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Internal'
+        403:
+          $ref: '#/components/schemas/Forbidden'
+        405:
+          $ref: '#/components/schemas/MethodNotAllowed'
+        502:
+          $ref: '#/components/schemas/BadGateway'
+        503:
+          $ref: '#/components/schemas/ServiceUnavailable'
+        504:
+          $ref: '#/components/schemas/GatewayTimeout'
+    # ------- PATCH
+    patch:
+      tags:
+        - users
+      summary: Update information
+      description:
+        user情報を更新する
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patch'
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          description: validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        500:
+          description: internale server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Internal'
+        403:
+          $ref: '#/components/schemas/Forbidden'
+        405:
+          $ref: '#/components/schemas/MethodNotAllowed'
+        502:
+          $ref: '#/components/schemas/BadGateway'
+        503:
+          $ref: '#/components/schemas/ServiceUnavailable'
+        504:
+          $ref: '#/components/schemas/GatewayTimeout'
+
+
+# =======================================================
+# FE selector
+# =======================================================
+  # ---------- FE selector: category list
+  /categries:
+    get:
+      tags: 
+        - FE selector
+        - settings
+      summary: get category list
+      description:
+        カテゴリーのリストを取得する
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Categories'
+        500:
+          description: internale server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Internal'
+        403:
+          $ref: '#/components/schemas/Forbidden'
+        405:
+          $ref: '#/components/schemas/MethodNotAllowed'
+        502:
+          $ref: '#/components/schemas/BadGateway'
+        503:
+          $ref: '#/components/schemas/ServiceUnavailable'
+        504:
+          $ref: '#/components/schemas/GatewayTimeout'
+  
+  # ---------- FE selector: status list
+  /statues:
+    get:
+      tags: 
+        - FE selector
+      summary: get status list
+      description:
+        ステータスのリストを取得する
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Statues'
+        500:
+          description: internale server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Internal'
+        403:
+          $ref: '#/components/schemas/Forbidden'
+        405:
+          $ref: '#/components/schemas/MethodNotAllowed'
+        502:
+          $ref: '#/components/schemas/BadGateway'
+        503:
+          $ref: '#/components/schemas/ServiceUnavailable'
+        504:
+          $ref: '#/components/schemas/GatewayTimeout'
+
+# =======================================================
+# tasks
+# =======================================================
+  # ---------- tasks: list
+  /task?query=example&fiilter[categories][0]=1&fiilter[categories][1]=2&fiilter[statues][0]=1&fiilter[statues][1]=2&sort[status]=DESC&sort[deadline]=ASC&offset=21&limit=10:
+    get:
+      tags:
+        - tasks
+      summary: Get task list
+      description:
+        Taskのリストを取得する
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: query
+          in: query
+          description: Search word this will find from title and description
+          schema:
+            type: string
+            example: "Infra AWS"
+        - name: filter[categories][index]
+          in: query
+          description: Filter
+          schema:
+            description: Filter by category ids
+            type: array
+            items:
+              type: string
+          example:
+            - "1"
+            - "2"
+        - name: filter[statues][index]
+          in: query
+          description: Filter
+          schema:
+            description: Filter by status ids
+            type: array
+            items:
+              type: string
+          example:
+            - "1"
+            - "2"
+        - name: sort[status]
+          in: query
+          description: Sort by status
+          schema:
+            description: Sort by status
+            type: string
+            enum: [ASC, DESC]
+            example: ASC
+        - name: sort[deadline]
+          in: query
+          description: Sort by deadline
+          schema:
+            description: Sort by deadline
+            type: string
+            enum: [ASC, DESC]
+            example: ASC
+        - name: offset
+          in: query
+          description: pagingに使用。N件目 ~ limit数取得
+          schema:
+            type: string
+            example: 21
+        - name: limit
+          in: query
+          description: pagingに使用。件数
+          schema:
+            type: string
+            example: 10
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskList'
+        500:
+          description: internale server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Internal'
+        403:
+          $ref: '#/components/schemas/Forbidden'
+        405:
+          $ref: '#/components/schemas/MethodNotAllowed'
+        502:
+          $ref: '#/components/schemas/BadGateway'
+        503:
+          $ref: '#/components/schemas/ServiceUnavailable'
+        504:
+          $ref: '#/components/schemas/GatewayTimeout'
+  
+  # ---------- tasks: about a task
+  /task/{TaskID}:
+  # ------- GET
+    get:
+      tags:
+        - tasks
+      summary: Get a task id
+      description: get task information
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: TaskID
+          in: path
+          description: ID 
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskInfo'
+        500:
+          description: internale server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Internal'
+        403:
+          $ref: '#/components/schemas/Forbidden'
+        405:
+          $ref: '#/components/schemas/MethodNotAllowed'
+        502:
+          $ref: '#/components/schemas/BadGateway'
+        503:
+          $ref: '#/components/schemas/ServiceUnavailable'
+        504:
+          $ref: '#/components/schemas/GatewayTimeout'
+    # ------- PUT
+    put:
+      tags:
+        - tasks
+      summary: Update a task
+      description: Update task
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: TaskID
+          in: path
+          description: ID 
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskInfo'
+        500:
+          description: internale server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Internal'
+        403:
+          $ref: '#/components/schemas/Forbidden'
+        405:
+          $ref: '#/components/schemas/MethodNotAllowed'
+        502:
+          $ref: '#/components/schemas/BadGateway'
+        503:
+          $ref: '#/components/schemas/ServiceUnavailable'
+        504:
+          $ref: '#/components/schemas/GatewayTimeout'
+    # ------- DELETE
+    delete:
+      tags:
+        - tasks
+      summary: Delete a task
+      description: Delete task
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: TaskID
+          in: path
+          description: ID 
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: successful operation
+        500:
+          description: internale server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Internal'
+        403:
+          $ref: '#/components/schemas/Forbidden'
+        405:
+          $ref: '#/components/schemas/MethodNotAllowed'
+        502:
+          $ref: '#/components/schemas/BadGateway'
+        503:
+          $ref: '#/components/schemas/ServiceUnavailable'
+        504:
+          $ref: '#/components/schemas/GatewayTimeout'
+
+  # ---------- tasks: create new task
+  /task:
+    post:
+      tags:
+        - tasks
+      summary: Create new task
+      description: Create new task
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        204:
+          description: successful operation
+        500:
+          description: internale server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Internal'
+        403:
+          $ref: '#/components/schemas/Forbidden'
+        405:
+          $ref: '#/components/schemas/MethodNotAllowed'
+        502:
+          $ref: '#/components/schemas/BadGateway'
+        503:
+          $ref: '#/components/schemas/ServiceUnavailable'
+        504:
+          $ref: '#/components/schemas/GatewayTimeout'
+
+  # ---------- tasks: update task status from task list
+  /task/{TaskID}/status:
+    patch:
+      tags:
+        - tasks
+      summary: Update a task
+      description: Update task
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: TaskID
+          in: path
+          description: ID 
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchStatus'
+      responses:
+        204:
+          description: successful operation
+        500:
+          description: internale server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Internal'
+        403:
+          $ref: '#/components/schemas/Forbidden'
+        405:
+          $ref: '#/components/schemas/MethodNotAllowed'
+        502:
+          $ref: '#/components/schemas/BadGateway'
+        503:
+          $ref: '#/components/schemas/ServiceUnavailable'
+        504:
+          $ref: '#/components/schemas/GatewayTimeout'
+
+  # ---------- setting: category
+  /category:
+    post:
+      tags:
+        - settings
+      summary: Add new category
+      description: Add new category
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+      responses:
+        204:
+          description: successful operation
+        500:
+          description: internale server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Internal'
+        403:
+          $ref: '#/components/schemas/Forbidden'
+        405:
+          $ref: '#/components/schemas/MethodNotAllowed'
+        502:
+          $ref: '#/components/schemas/BadGateway'
+        503:
+          $ref: '#/components/schemas/ServiceUnavailable'
+        504:
+          $ref: '#/components/schemas/GatewayTimeout'
+  
+  # ---------- setting: delete category
+  /category/{CategoryID}:
+    delete:
+      tags:
+        - settings
+      summary: Update a category name
+      description: Update a category name
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: CategoryID
+          in: path
+          description: ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: successful operation
+        500:
+          description: internale server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Internal'
+        403:
+          $ref: '#/components/schemas/Forbidden'
+        405:
+          $ref: '#/components/schemas/MethodNotAllowed'
+        502:
+          $ref: '#/components/schemas/BadGateway'
+        503:
+          $ref: '#/components/schemas/ServiceUnavailable'
+        504:
+          $ref: '#/components/schemas/GatewayTimeout'
+
+  # ---------- setting: update category name
+  /category/{CategoryID}/name:
+    patch:
+      tags:
+        - settings
+      summary: Update a category name
+      description: Update a category name
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: CategoryID
+          in: path
+          description: ID
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: 
+                  type: string
+                  description: カテゴリー名
+                  example: "バックエンド"
+      responses:
+        204:
+          description: successful operation
+        500:
+          description: internale server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Internal'
+        403:
+          $ref: '#/components/schemas/Forbidden'
+        405:
+          $ref: '#/components/schemas/MethodNotAllowed'
+        502:
+          $ref: '#/components/schemas/BadGateway'
+        503:
+          $ref: '#/components/schemas/ServiceUnavailable'
+        504:
+          $ref: '#/components/schemas/GatewayTimeout'
+  
+  # ---------- setting: update category color
+  /category/{CategoryID}/color:
+    patch:
+      tags:
+        - settings
+      summary: Update a category color
+      description: Update a category color
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                color: 
+                  type: string
+                  description: カテゴリーの色
+                  example: "FFFFFF"
+      responses:
+        204:
+          description: successful operation
+        500:
+          description: internale server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Internal'
+        403:
+          $ref: '#/components/schemas/Forbidden'
+        405:
+          $ref: '#/components/schemas/MethodNotAllowed'
+        502:
+          $ref: '#/components/schemas/BadGateway'
+        503:
+          $ref: '#/components/schemas/ServiceUnavailable'
+        504:
+          $ref: '#/components/schemas/GatewayTimeout'
+
+# ##############################################
+# Components
+# ##############################################
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    # ----------------------------------------------
+    # Request
+    # ----------------------------------------------
+    Register:
+      type: object
+      required:
+        - user_name
+        - email
+        - password
+      properties:
+        user_name: 
+          type: string
+          format: 半角英数字,-,_,.,@
+          description: TODO AppのUser名
+          example:  pitahinako
+        email:
+          type: string
+          description: メールアドレス
+          example: pitahinako@gmail.com
+        password:
+          type: string
+          description: パスワード
+          format: ^[A-Z,a-z,0-9,\*,_,\.,-,@]{8,16}$
+          example: pitahinako0129
+    SiginIn:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          description: メールアドレス
+          example: pitahinako@gmail.com
+        password:
+          type: string
+          description: パスワード
+          format: ^[A-Z,a-z,0-9,\*,_,\.,-,@]{8,16}$
+          example: pitahinako0129
+    Patch:
+      type: object
+      required:
+        - user_name
+        - email
+      properties:
+        user_name: 
+          type: string
+          format: 半角英数字,-,_,.,@
+          description: TODO AppのUser名
+          example:  pitahinako
+        email:
+          type: string
+          description: メールアドレス
+          example: pitahinako@gmail.com
+        password:
+          type: string
+          description: パスワード。入力されていた場合`password_confirmation`も必須
+          format: ^[A-Z,a-z,0-9,\*,_,\.,-,@]{8,16}$
+          example: pitahinako0129
+        password_confirmation:
+          type: string
+          description: パスワード
+          format: ^[A-Z,a-z,0-9,\*,_,\.,-,@]{8,16}$
+          example: pitahinako0129
+    PatchStatus:
+      type: object
+      required:
+        - status_id
+      properties:
+        status_id:
+          type: integer
+          description: Status ID
+          example: 2
+    Task:
+      description: TaskのRequest
+      type: object
+      required:
+        - title
+        - category_id
+        - status
+      properties:
+        title:
+          type: string
+          description: タイトル
+          example: React routerをmasterする
+        category_id:
+          type: integer
+          description: カテゴリーID
+          example: 1
+        deadline: 
+          type: string
+          format: "yyyy/mm/dd"
+          example: "2023/07/31"
+        status:
+          type: integer
+          description: status id
+          example: 1
+        description:
+          type: string
+          example: "Long sentences have, obviously, been around for quite a while. (What would Dickens or Joyce—or, for that matter, German—be without them?) But I’ve noticed a flourishing of the form lately in the books I’ve been reading, a harnessing of the long sentence to gorgeous and glorious ends. My favorite long sentences have always tended to pile clause on clause, building descriptions by slow but unrelenting accretion. And that, to my delight, is what I’ve been seeing of late."
+    Category:
+      description: Categoryの追加
+      type: object
+      required:
+        - name
+        - color
+      properties:
+        name:
+          type: string
+          description: カテゴリーの名前
+          example: design
+        color:
+          type: string
+          description: カテゴリーの色(16進数)
+          example: "000000"
+          
+    # ----------------------------------------------
+    # Response
+    # ----------------------------------------------
+    Token:
+      type: object
+      required:
+        - token
+      properties:
+        token:
+          type: string
+          description: JWT token
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QwMkBnbWFpbC5jb20iLCJpYXQiOjE2NjE0MzIzODksImV4cCI6MTY2MTQ3NTU4OX0.XqSMhNyjFzcFUYA_5AvqPSj0Zh1S4-inLpBVyyZtxNg"
+    User:
+      type: object
+      properties:
+        user_name: 
+          type: string
+          format: 半角英数字,-,_,.,@
+          description: TODO AppのUser名
+          example:  pitahinako
+        email:
+          type: string
+          description: メールアドレス
+          example: pitahinako@gmail.com
+    TaskList:
+      description: Taskのリスト
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            description: task id
+          title:
+            type: string
+            description: task title
+          status:
+            type: integer
+            description: status id
+          deadline:
+            type: string
+            format: yyyy/mm/dd
+            description: 期限
+          category:
+            type: object
+            description: category id and color code
+            properties:
+              category_id:
+                type: integer
+                description: category_id
+              color_code:
+                type: string
+                description: categoryのカラーコード
+      example:
+        - id: 1
+          title: Study Backend
+          status: 2
+          deadline: 2023/08/31
+          category: {
+            category_id: 1,
+            color_code: FC0C0C
+          }
+        - id: 2
+          title: Study Infra
+          status: 3
+          deadline: 2023/08/31
+          category: {
+            category_id: 3,
+            color_code: FFCC00
+          }
+        - id: 3
+          title: Study Frontend
+          status: 1
+          deadline: 2023/08/31
+          category: {
+            category_id: 2,
+            color_code: 0C6CFC
+          }
+    TaskInfo:
+      description: Task
+      type: object
+      properties:
+        id:
+          type: integer
+          description: task id
+          example: 1
+        title:
+          type: string
+          description: task title
+          example: "LaravelのRoutingを覚える"
+        deadline:
+          type: string
+          format: yyyy/mm/dd
+          description: 期限
+          example: "2023/07/31"
+        status:
+          type: object
+          description: status id and color code
+          properties:
+            status_id:
+              type: integer
+              description: status_id
+              example: 1
+            name:
+              type: string
+              description: status name
+              example: TODO
+            color_code:
+              type: string
+              description: statusのカラーコード
+              example: FC0C0C
+        category:
+          type: object
+          description: category id and color code
+          properties:
+            category_id:
+              type: integer
+              description: category_id
+              example: 1
+            name:
+              type: string
+              description: Category name
+              example: Backend
+            color_code:
+              type: string
+              description: categoryのカラーコード
+              example: FFCC00
+    Categories:
+      description: Categoryのリスト
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            description: category id
+          name:
+            type: string
+            description: category name
+          color_code:
+            type: string
+            description: category color code
+      example:
+        - id: 1
+          name: Frontend
+          color_code: 0C6CFC
+        - id: 2
+          name: Backend
+          color_code: FC0C0C
+        - id: 3
+          name: Infrastructure
+          color_code: FFCC00
+    Statues:
+      description: Statusのリスト
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            description: status id
+          name:
+            type: string
+            description: status name
+          color_code:
+            type: string
+            description: status color code
+      example:
+        - id: 1
+          name: TODO
+          color_code: FB0000
+        - id: 2
+          name: DOING
+          color_code: 00B0FB
+        - id: 3
+          name: DONE
+          color_code: 00C738
+    # ----------------------------------------------
+    # Common Responses
+    # ----------------------------------------------
+    # ------- 400 Error
+    BadRequest: 
+      description: validation error
+      type: object
+      required:
+        - error_code
+        - error_msg
+      properties:
+        error_code:
+          type: string
+          description: Validation error code.
+          format: E400000 ~ E400999
+          example: E400001
+        error_msg:
+          type: string
+          description: Validation error message.
+          example: "email is required."
+    # ------- 500 Error
+    Internal:
+      description: internal server error
+      type: object
+      required:
+        - error_code
+        - error_msg
+      properties:
+        error_code:
+          type: string
+          description: error code.
+          format: S500000 ~ S500999
+          example: S500001
+        error_msg:
+          type: string
+          description: error message.
+          example: "Internal Server Error occurred."
+    # ------- 403 Error
+    Forbidden:
+      description: Unauthenticated error
+    # ------- 405 Error
+    MethodNotAllowed:
+      description: Method Not Allowed
+    # ------- 502 Error
+    BadGateway:
+      description: Bad Gateway error
+    # ------- 503 Error
+    ServiceUnavailable:
+      description: Server unavailable error
+    # ------- 504 Error
+    GatewayTimeout:
+      description: Gateway Timeout
