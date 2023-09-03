@@ -11,3 +11,12 @@ WORKDIR /go/src/app
 
 COPY ../../src /go/src/app
 RUN go mod tidy
+
+###################################
+# gPRC app-statusmaster
+###################################
+FROM base AS app-statusmaster
+WORKDIR /go/src/app
+
+COPY ../../src /go/src/app
+RUN go mod tidy

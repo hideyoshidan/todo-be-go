@@ -40,6 +40,7 @@ services:
     environment:
       GATEWAY_PORT: 8000
       RPC_PORT: 4000
+      STATUSMASTER_PORT: 4001
     volumes: 
       - ../src:/go/src/app
     tty: true
@@ -49,10 +50,25 @@ services:
       - app-db
     platform: linux/amd64
 
-  # # -------------------------
-  # # status master server
-  # # -------------------------
-  # app-status-server:
+  # -------------------------
+  # status master server
+  # -------------------------
+  app-statusmaster:
+    container_name: app-statusmaster
+    build:
+      context: ../
+      dockerfile: .docker/app/Dockerfile
+      target: app-statusmaster
+    environment:
+      RPC_PORT: 4001
+    volumes: 
+      - ../src:/go/src/app
+    tty: true
+    ports:
+      - 4001:4001
+    depends_on: 
+      - app-db
+    platform: linux/amd64
 
   # # -------------------------
   # # category master

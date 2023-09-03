@@ -4,18 +4,30 @@ import (
 	"context"
 
 	"todo.com/proto/appmixer"
+	"todo.com/proto/statusmaster"
 )
 
-type AppmixerServer struct {
+type Appmixer struct {
+	sClient statusmaster.StatusMasterClient
 	appmixer.AppmixerServer
 }
 
-func NewRPC() *AppmixerServer {
-	return &AppmixerServer{}
+func NewRPC(sClient statusmaster.StatusMasterClient) *Appmixer {
+	return &Appmixer{
+		sClient: sClient,
+	}
 }
 
-func (s *AppmixerServer) SayHello(ctx context.Context, req *appmixer.AppRequest) (*appmixer.AppResponse, error) {
+func (s *Appmixer) SayHello(ctx context.Context, req *appmixer.AppRequest) (*appmixer.AppResponse, error) {
+	res, err := s.sClient.SayHello(ctx, &statusmaster.StausRequest{
+		Name: req.Name,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
 	return &appmixer.AppResponse{
-		Message: "Hello World",
+		Message: res.Message,
 	}, nil
 }

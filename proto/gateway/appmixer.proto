@@ -1,6 +1,7 @@
 syntax = "proto3";
 package appmixer;
 
+// コード自動生成されるディレクトリを指定
 option go_package = "src/proto/appmixer";
 
 // Although this might be error, build is successful working
@@ -8,7 +9,6 @@ import "google/api/annotations.proto";
 import "buf/validate/validate.proto";
 
 service Appmixer {
-  // Sends a greeting
   rpc SayHello (AppRequest) returns (AppResponse) {
     option (google.api.http) = {
       post: "/todo/say-hello"

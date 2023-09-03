@@ -11,7 +11,9 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+	"todo.com/lib/connection"
 	pb "todo.com/proto/appmixer"
+	"todo.com/proto/statusmaster"
 	"todo.com/services/appmixer/rpc"
 )
 
@@ -23,11 +25,12 @@ func main() {
 		log.Fatalln("Failed to listen:", err)
 	}
 
-	// Create a gRPC server object
-	s := grpc.NewServer()
-	rpc := rpc.NewRPC()
+	sConn := initConnectToStatusMaster()
+	defer sConn.Close()
 
-	// Attach the Greeter service to the server
+	// Create a gRPC server object
+	rpc := rpc.NewRPC(statusmaster.NewStatusMasterClient(sConn))
+	s := grpc.NewServer()
 	pb.RegisterAppmixerServer(s, rpc)
 	go func() {
 		log.Fatalln(s.Serve(lis))
@@ -49,13 +52,20 @@ func main() {
 
 	mux := runtime.NewServeMux()
 	err = pb.RegisterAppmixerHandler(context.Background(), mux, conn)
-
 	gwServer := &http.Server{
 		Addr:    fmt.Sprintf(":%v", os.Getenv("GATEWAY_PORT")),
 		Handler: mux,
 	}
 
 	log.Print("Appmixer grpc-gateway waiting request...")
-
 	log.Fatalln(gwServer.ListenAndServe())
+}
+
+func initConnectToStatusMaster() *grpc.ClientConn {
+	conn := connection.NewConnectRPC("app-statusmater", os.Getenv("STATUSMASTER_PORT"))
+	sConn, err := conn.InitConnection()
+	if err != nil {
+		log.Fatalln("Cannot connect with StatusMaster RPC Server:", err)
+	}
+	return sConn
 }

@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+// 名前衝突を避ける
+package todo;
+
+option go_package = "src/proto/statusmaster/";
+
+import "buf/validate/validate.proto";
+
+service StatusMaster {
+  rpc SayHello (StausRequest) returns (StausResponse) {}
+}
+
+message StausRequest {
+  string name = 1[(buf.validate.field).string.min_len = 1];;
+}
+
+message StausResponse {
+  string message = 1;
+}
