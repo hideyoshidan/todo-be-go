@@ -62,7 +62,7 @@ func main() {
 }
 
 func initConnectToStatusMaster() *grpc.ClientConn {
-	conn := connection.NewConnectRPC("app-statusmater", os.Getenv("STATUSMASTER_PORT"))
+	conn := connection.NewConnectRPC("app-statusmaster", os.Getenv("STATUSMASTER_PORT"))
 	sConn, err := conn.InitConnection()
 	if err != nil {
 		log.Fatalln("Cannot connect with StatusMaster RPC Server:", err)

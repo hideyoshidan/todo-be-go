@@ -21,14 +21,14 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	StatusMaster_SayHello_FullMethodName = "/todo.StatusMaster/SayHello"
+	StatusMaster_StatusList_FullMethodName = "/statusmaster.StatusMaster/StatusList"
 )
 
 // StatusMasterClient is the client API for StatusMaster service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type StatusMasterClient interface {
-	SayHello(ctx context.Context, in *StausRequest, opts ...grpc.CallOption) (*StausResponse, error)
+	StatusList(ctx context.Context, in *StatusRequest, opts ...grpc.CallOption) (*StatusResponse, error)
 }
 
 type statusMasterClient struct {
@@ -39,9 +39,9 @@ func NewStatusMasterClient(cc grpc.ClientConnInterface) StatusMasterClient {
 	return &statusMasterClient{cc}
 }
 
-func (c *statusMasterClient) SayHello(ctx context.Context, in *StausRequest, opts ...grpc.CallOption) (*StausResponse, error) {
-	out := new(StausResponse)
-	err := c.cc.Invoke(ctx, StatusMaster_SayHello_FullMethodName, in, out, opts...)
+func (c *statusMasterClient) StatusList(ctx context.Context, in *StatusRequest, opts ...grpc.CallOption) (*StatusResponse, error) {
+	out := new(StatusResponse)
+	err := c.cc.Invoke(ctx, StatusMaster_StatusList_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +52,7 @@ func (c *statusMasterClient) SayHello(ctx context.Context, in *StausRequest, opt
 // All implementations must embed UnimplementedStatusMasterServer
 // for forward compatibility
 type StatusMasterServer interface {
-	SayHello(context.Context, *StausRequest) (*StausResponse, error)
+	StatusList(context.Context, *StatusRequest) (*StatusResponse, error)
 	mustEmbedUnimplementedStatusMasterServer()
 }
 
@@ -60,8 +60,8 @@ type StatusMasterServer interface {
 type UnimplementedStatusMasterServer struct {
 }
 
-func (UnimplementedStatusMasterServer) SayHello(context.Context, *StausRequest) (*StausResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SayHello not implemented")
+func (UnimplementedStatusMasterServer) StatusList(context.Context, *StatusRequest) (*StatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method StatusList not implemented")
 }
 func (UnimplementedStatusMasterServer) mustEmbedUnimplementedStatusMasterServer() {}
 
@@ -76,20 +76,20 @@ func RegisterStatusMasterServer(s grpc.ServiceRegistrar, srv StatusMasterServer)
 	s.RegisterService(&StatusMaster_ServiceDesc, srv)
 }
 
-func _StatusMaster_SayHello_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(StausRequest)
+func _StatusMaster_StatusList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StatusRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(StatusMasterServer).SayHello(ctx, in)
+		return srv.(StatusMasterServer).StatusList(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: StatusMaster_SayHello_FullMethodName,
+		FullMethod: StatusMaster_StatusList_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StatusMasterServer).SayHello(ctx, req.(*StausRequest))
+		return srv.(StatusMasterServer).StatusList(ctx, req.(*StatusRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -98,12 +98,12 @@ func _StatusMaster_SayHello_Handler(srv interface{}, ctx context.Context, dec fu
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var StatusMaster_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "todo.StatusMaster",
+	ServiceName: "statusmaster.StatusMaster",
 	HandlerType: (*StatusMasterServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "SayHello",
-			Handler:    _StatusMaster_SayHello_Handler,
+			MethodName: "StatusList",
+			Handler:    _StatusMaster_StatusList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

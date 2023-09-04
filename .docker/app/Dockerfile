@@ -9,7 +9,7 @@ RUN apk update && apk add git
 FROM base AS app-appmixer
 WORKDIR /go/src/app
 
-COPY ../../src /go/src/app
+COPY ../../todo.com /go/src/app
 RUN go mod tidy
 
 ###################################
@@ -18,5 +18,5 @@ RUN go mod tidy
 FROM base AS app-statusmaster
 WORKDIR /go/src/app
 
-COPY ../../src /go/src/app
+COPY ../../todo.com /go/src/app
 RUN go mod tidy

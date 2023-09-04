@@ -2,21 +2,34 @@ syntax = "proto3";
 package appmixer;
 
 // コード自動生成されるディレクトリを指定
-option go_package = "src/proto/appmixer";
+option go_package = "todo.com/proto/appmixer";
 
 // Although this might be error, build is successful working
 import "google/api/annotations.proto";
 import "buf/validate/validate.proto";
+import "services/status_master.proto";
 
 service Appmixer {
+  // Sample
   rpc SayHello (AppRequest) returns (AppResponse) {
     option (google.api.http) = {
       post: "/todo/say-hello"
       body: "*"
     };
   }
+
+  // /status
+  rpc GetStatus (statusmaster.StatusRequest) returns (statusmaster.StatusResponse) {
+    option (google.api.http) = {
+      post: "/statuses"
+      body: "*"
+    };
+  }
 }
 
+// -----------------------------------------------
+// Sample
+// -----------------------------------------------
 message AppRequest {
   string name = 1[(buf.validate.field).string.min_len = 1];
 }
@@ -24,3 +37,5 @@ message AppRequest {
 message AppResponse {
   string message = 1;
 }
+
+

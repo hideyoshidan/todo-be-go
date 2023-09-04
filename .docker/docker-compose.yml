@@ -42,7 +42,7 @@ services:
       RPC_PORT: 4000
       STATUSMASTER_PORT: 4001
     volumes: 
-      - ../src:/go/src/app
+      - ../todo.com:/go/todo.com/app
     tty: true
     ports:
       - 8000:8000
@@ -62,7 +62,7 @@ services:
     environment:
       RPC_PORT: 4001
     volumes: 
-      - ../src:/go/src/app
+      - ../todo.com:/go/todo.com/app
     tty: true
     ports:
       - 4001:4001

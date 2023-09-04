@@ -19,15 +19,18 @@ func NewRPC(sClient statusmaster.StatusMasterClient) *Appmixer {
 }
 
 func (s *Appmixer) SayHello(ctx context.Context, req *appmixer.AppRequest) (*appmixer.AppResponse, error) {
-	res, err := s.sClient.SayHello(ctx, &statusmaster.StausRequest{
-		Name: req.Name,
-	})
+	return &appmixer.AppResponse{
+		Message: "Hello!!!",
+	}, nil
+}
+
+func (s *Appmixer) GetStatus(ctx context.Context, req *statusmaster.StatusRequest) (*statusmaster.StatusResponse, error) {
+	res, err := s.sClient.StatusList(ctx, &statusmaster.StatusRequest{})
 
 	if err != nil {
 		return nil, err
 	}
+	return res, nil
 
-	return &appmixer.AppResponse{
-		Message: res.Message,
-	}, nil
+	// return res, nil
 }

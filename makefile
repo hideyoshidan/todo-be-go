@@ -65,7 +65,7 @@ proto-gw:
 		./proto/gateway/appmixer.proto
 
 # proto-gw:
-# 	protoc -I ./src/proto \
+# 	protoc -I ./todo.com/proto \
 # 		--go_out=./ \
 # 		--go-grpc_out=. \
 # 		--grpc-gateway_out=. \
