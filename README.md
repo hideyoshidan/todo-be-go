@@ -3,6 +3,7 @@
 
 # ■ local setup
 ## 0. Before setup local
+be aware of that this project is used external proto files.
 - For using gRPC gateway, needed to add `./proto/google/*` from [googleapis](https://github.com/googleapis/googleapis/tree/master)
 - For using validation, needed to add `./proto/buf/validate/*` from [protovalidate-go](https://github.com/bufbuild/protovalidate-go)
 
@@ -44,8 +45,20 @@
   % source ~/.zshrc
   ```
 
-- Make go file from proto
+## 2. Running Local Environment 
+
+### ① Make go file from proto
   ```
   % make proto-gw
+  % make proto-gen
   ```
-## 2. 
+### ② Start Docker containers
+  ```
+  % make up
+  ```
+
+### ③ Start each rpc servers
+  Following command will be running on background.
+  ```
+  % make run-all-back
+  ```
