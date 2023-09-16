@@ -24,7 +24,7 @@ func (s *Appmixer) SayHello(ctx context.Context, req *appmixer.AppRequest) (*app
 	}, nil
 }
 
-func (s *Appmixer) GetStatus(ctx context.Context, req *statusmaster.StatusRequest) (*statusmaster.StatusResponse, error) {
+func (s *Appmixer) GetStatuses(ctx context.Context, req *statusmaster.StatusRequest) (*statusmaster.StatusResponse, error) {
 	res, err := s.sClient.StatusList(ctx, &statusmaster.StatusRequest{})
 
 	if err != nil {

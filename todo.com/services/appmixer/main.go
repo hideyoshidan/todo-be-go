@@ -11,7 +11,7 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	"todo.com/lib/connection"
+	"todo.com/infrastructure/rpc_client"
 	pb "todo.com/proto/appmixer"
 	"todo.com/proto/statusmaster"
 	"todo.com/services/appmixer/rpc"
@@ -62,7 +62,7 @@ func main() {
 }
 
 func initConnectToStatusMaster() *grpc.ClientConn {
-	conn := connection.NewConnectRPC("app-statusmaster", os.Getenv("STATUSMASTER_PORT"))
+	conn := rpc_client.NewRPCClient("app-statusmaster", os.Getenv("STATUSMASTER_PORT"))
 	sConn, err := conn.InitConnection()
 	if err != nil {
 		log.Fatalln("Cannot connect with StatusMaster RPC Server:", err)

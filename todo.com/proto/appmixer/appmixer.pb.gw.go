@@ -66,7 +66,7 @@ func local_request_Appmixer_SayHello_0(ctx context.Context, marshaler runtime.Ma
 
 }
 
-func request_Appmixer_GetStatus_0(ctx context.Context, marshaler runtime.Marshaler, client AppmixerClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Appmixer_GetStatuses_0(ctx context.Context, marshaler runtime.Marshaler, client AppmixerClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq statusmaster.StatusRequest
 	var metadata runtime.ServerMetadata
 
@@ -78,12 +78,12 @@ func request_Appmixer_GetStatus_0(ctx context.Context, marshaler runtime.Marshal
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.GetStatus(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.GetStatuses(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_Appmixer_GetStatus_0(ctx context.Context, marshaler runtime.Marshaler, server AppmixerServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_Appmixer_GetStatuses_0(ctx context.Context, marshaler runtime.Marshaler, server AppmixerServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq statusmaster.StatusRequest
 	var metadata runtime.ServerMetadata
 
@@ -95,7 +95,7 @@ func local_request_Appmixer_GetStatus_0(ctx context.Context, marshaler runtime.M
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.GetStatus(ctx, &protoReq)
+	msg, err := server.GetStatuses(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -131,7 +131,7 @@ func RegisterAppmixerHandlerServer(ctx context.Context, mux *runtime.ServeMux, s
 
 	})
 
-	mux.Handle("POST", pattern_Appmixer_GetStatus_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_Appmixer_GetStatuses_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -139,12 +139,12 @@ func RegisterAppmixerHandlerServer(ctx context.Context, mux *runtime.ServeMux, s
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/appmixer.Appmixer/GetStatus", runtime.WithHTTPPathPattern("/statuses"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/appmixer.Appmixer/GetStatuses", runtime.WithHTTPPathPattern("/statuses"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_Appmixer_GetStatus_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_Appmixer_GetStatuses_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -152,7 +152,7 @@ func RegisterAppmixerHandlerServer(ctx context.Context, mux *runtime.ServeMux, s
 			return
 		}
 
-		forward_Appmixer_GetStatus_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Appmixer_GetStatuses_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -219,25 +219,25 @@ func RegisterAppmixerHandlerClient(ctx context.Context, mux *runtime.ServeMux, c
 
 	})
 
-	mux.Handle("POST", pattern_Appmixer_GetStatus_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_Appmixer_GetStatuses_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/appmixer.Appmixer/GetStatus", runtime.WithHTTPPathPattern("/statuses"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/appmixer.Appmixer/GetStatuses", runtime.WithHTTPPathPattern("/statuses"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_Appmixer_GetStatus_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Appmixer_GetStatuses_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_Appmixer_GetStatus_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Appmixer_GetStatuses_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -247,11 +247,11 @@ func RegisterAppmixerHandlerClient(ctx context.Context, mux *runtime.ServeMux, c
 var (
 	pattern_Appmixer_SayHello_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"todo", "say-hello"}, ""))
 
-	pattern_Appmixer_GetStatus_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"statuses"}, ""))
+	pattern_Appmixer_GetStatuses_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"statuses"}, ""))
 )
 
 var (
 	forward_Appmixer_SayHello_0 = runtime.ForwardResponseMessage
 
-	forward_Appmixer_GetStatus_0 = runtime.ForwardResponseMessage
+	forward_Appmixer_GetStatuses_0 = runtime.ForwardResponseMessage
 )
