@@ -1,0 +1,86 @@
+version: '3'
+
+services:
+  ########################################################################
+  # Mysql
+  ########################################################################
+  app-db:
+    container_name: app-db
+    build: 
+      context: ../
+      dockerfile: .docker/mysql/Dockerfile
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: todo
+      MYSQL_USER: todo
+      MYSQL_PASSWORD: todo
+      TZ: 'Asia/Tokyo'
+    ports:
+      - 3307:3307
+    restart: always
+    volumes:
+      - ./mysql/conf.d:/etc/mysql/conf.d
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/logs:/var/lib/mysql
+    tty: true
+    platform: linux/amd64
+
+  ########################################################################
+  # Application Servers
+  ########################################################################
+  # -------------------------
+  # gRPC gateway server
+  # -------------------------
+  app-appmixer:
+    container_name: app-appmixer
+    build:
+      context: ../
+      dockerfile: .docker/app/Dockerfile
+      target: app-appmixer
+    environment:
+      GATEWAY_PORT: 8000
+      RPC_PORT: 4000
+      STATUSMASTER_PORT: 4001
+    volumes: 
+      - ../todo.com:/go/todo.com/app
+    tty: true
+    ports:
+      - 8000:8000
+    depends_on: 
+      - app-db
+    platform: linux/amd64
+
+  # -------------------------
+  # status master server
+  # -------------------------
+  app-statusmaster:
+    container_name: app-statusmaster
+    build:
+      context: ../
+      dockerfile: .docker/app/Dockerfile
+      target: app-statusmaster
+    environment:
+      RPC_PORT: 4001
+    volumes: 
+      - ../todo.com:/go/todo.com/app
+    tty: true
+    ports:
+      - 4001:4001
+    depends_on: 
+      - app-db
+    platform: linux/amd64
+
+  # # -------------------------
+  # # category master
+  # # -------------------------
+  # app-category-server:
+
+  # # -------------------------
+  # # user server
+  # # -------------------------
+  # app-user-server:
+
+  # # -------------------------
+  # # task server
+  # # -------------------------
+  # app-task-server:

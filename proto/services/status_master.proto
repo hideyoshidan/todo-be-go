@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+// 名前衝突を避ける
+package statusmaster;
+
+option go_package = "todo.com/proto/statusmaster";
+
+import "buf/validate/validate.proto";
+
+service StatusMaster {
+  rpc StatusList(StatusRequest) returns (StatusResponse){}
+}
+
+// -----------------------------------------------
+// StatusMaster
+// -----------------------------------------------
+message StatusRequest{}
+
+message StatusResponse {
+  repeated Status statuses = 1;
+}
+
+message Status {
+  int32 id = 1;
+  string name = 2;
+  string color_code = 3;
+}
