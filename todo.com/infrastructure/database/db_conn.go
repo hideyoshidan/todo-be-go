@@ -1,8 +1,20 @@
 package database
 
-type Database struct {
+import "gorm.io/gorm"
+
+type DBConnIF interface {
+	connectDB() (db *gorm.DB, err error)
 }
 
-func NewDatabase() *Database {
-	return &Database{}
+type dbConf struct {
+	user     string
+	password string
+	addr     string
+	database string
+	location string
+	opt      *gorm.Config
+}
+
+func NewDBConn(conf DBConnIF) (db *gorm.DB, err error) {
+	return conf.connectDB()
 }

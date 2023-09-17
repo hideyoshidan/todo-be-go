@@ -34,20 +34,28 @@ into-appmixer:
 into-statusmaster:
 	cd .docker && docker compose exec ${APP_STATUSMASTER} /bin/sh
 
+
+# ----------------------------------
+# Migrate
+# ----------------------------------
+db-migrate:
+	cd .docker && docker compose exec -d ${APP_APPMIXER} /bin/sh -c "go run /go/todo.com/app/cmd/main.go -m"
+
+
 # ----------------------------------
 # Run grpc on "background"
 # ----------------------------------
 run-appmixer-back:
-	cd .docker && docker compose exec -d ${APP_APPMIXER} /bin/sh -c "go run /go/src/app/services/appmixer/main.go"
+	cd .docker && docker compose exec -d ${APP_APPMIXER} /bin/sh -c "go run /go/todo.com/app/services/appmixer/main.go"
 run-statusmaster-back:
-	cd .docker && docker compose exec -d ${APP_STATUSMASTER} /bin/sh -c "go run /go/src/app/services/statusmaster/main.go"
+	cd .docker && docker compose exec -d ${APP_STATUSMASTER} /bin/sh -c "go run /go/todo.com/app/services/statusmaster/main.go"
 # ----------------------------------
 # Run grpc on "foregrond"
 # ----------------------------------
 run-appmixer:
-	cd .docker && docker compose exec ${APP_APPMIXER} /bin/sh -c "go run /go/src/app/services/appmixer/main.go"
+	cd .docker && docker compose exec ${APP_APPMIXER} /bin/sh -c "go run /go/todo.com/app/services/appmixer/main.go"
 run-statusmaster:
-	cd .docker && docker compose exec ${APP_STATUSMASTER} /bin/sh -c "go run /go/src/app/services/statusmaster/main.go"
+	cd .docker && docker compose exec ${APP_STATUSMASTER} /bin/sh -c "go run /go/todo.com/app/services/statusmaster/main.go"
 
 # proto builder
 proto-gen:
