@@ -1,4 +1,4 @@
-package connection
+package rpc_client
 
 import (
 	"fmt"
@@ -11,19 +11,19 @@ import (
 // -----------------------------
 // Connection to RPC
 // -----------------------------
-type ConnectRPC struct {
+type RPCClient struct {
 	ConnectionName string // gRPC container name
 	CoonectionPort string // gRPC container port
 }
 
-func NewConnectRPC(connNameTO, connPortTO string) *ConnectRPC {
-	return &ConnectRPC{
+func NewRPCClient(connNameTO, connPortTO string) *RPCClient {
+	return &RPCClient{
 		ConnectionName: connNameTO,
 		CoonectionPort: connPortTO,
 	}
 }
 
-func (c *ConnectRPC) InitConnection() (*grpc.ClientConn, error) {
+func (c *RPCClient) InitConnection() (*grpc.ClientConn, error) {
 	// ① greeting-todo containerのIPを取得。
 	// % make into-greeting
 	// # ifconfig

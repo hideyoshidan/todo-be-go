@@ -7,16 +7,16 @@ RUN apk update && apk add git
 # gPRC app-appmixer
 ###################################
 FROM base AS app-appmixer
-WORKDIR /go/src/app
+WORKDIR /go/todo.com/app
 
-COPY ../../todo.com /go/src/app
+COPY ../../todo.com /go/todo.com/app
 RUN go mod tidy
 
 ###################################
 # gPRC app-statusmaster
 ###################################
 FROM base AS app-statusmaster
-WORKDIR /go/src/app
+WORKDIR /go/todo.com/app
 
-COPY ../../todo.com /go/src/app
+COPY ../../todo.com /go/todo.com/app
 RUN go mod tidy

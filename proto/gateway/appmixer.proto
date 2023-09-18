@@ -18,8 +18,8 @@ service Appmixer {
     };
   }
 
-  // /status
-  rpc GetStatus (statusmaster.StatusRequest) returns (statusmaster.StatusResponse) {
+  // /statuses
+  rpc GetStatuses (statusmaster.StatusRequest) returns (statusmaster.StatusResponse) {
     option (google.api.http) = {
       post: "/statuses"
       body: "*"

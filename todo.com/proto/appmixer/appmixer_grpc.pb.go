@@ -20,8 +20,8 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Appmixer_SayHello_FullMethodName  = "/appmixer.Appmixer/SayHello"
-	Appmixer_GetStatus_FullMethodName = "/appmixer.Appmixer/GetStatus"
+	Appmixer_SayHello_FullMethodName    = "/appmixer.Appmixer/SayHello"
+	Appmixer_GetStatuses_FullMethodName = "/appmixer.Appmixer/GetStatuses"
 )
 
 // AppmixerClient is the client API for Appmixer service.
@@ -30,8 +30,8 @@ const (
 type AppmixerClient interface {
 	// Sample
 	SayHello(ctx context.Context, in *AppRequest, opts ...grpc.CallOption) (*AppResponse, error)
-	// /status
-	GetStatus(ctx context.Context, in *statusmaster.StatusRequest, opts ...grpc.CallOption) (*statusmaster.StatusResponse, error)
+	// /statuses
+	GetStatuses(ctx context.Context, in *statusmaster.StatusRequest, opts ...grpc.CallOption) (*statusmaster.StatusResponse, error)
 }
 
 type appmixerClient struct {
@@ -51,9 +51,9 @@ func (c *appmixerClient) SayHello(ctx context.Context, in *AppRequest, opts ...g
 	return out, nil
 }
 
-func (c *appmixerClient) GetStatus(ctx context.Context, in *statusmaster.StatusRequest, opts ...grpc.CallOption) (*statusmaster.StatusResponse, error) {
+func (c *appmixerClient) GetStatuses(ctx context.Context, in *statusmaster.StatusRequest, opts ...grpc.CallOption) (*statusmaster.StatusResponse, error) {
 	out := new(statusmaster.StatusResponse)
-	err := c.cc.Invoke(ctx, Appmixer_GetStatus_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, Appmixer_GetStatuses_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -66,8 +66,8 @@ func (c *appmixerClient) GetStatus(ctx context.Context, in *statusmaster.StatusR
 type AppmixerServer interface {
 	// Sample
 	SayHello(context.Context, *AppRequest) (*AppResponse, error)
-	// /status
-	GetStatus(context.Context, *statusmaster.StatusRequest) (*statusmaster.StatusResponse, error)
+	// /statuses
+	GetStatuses(context.Context, *statusmaster.StatusRequest) (*statusmaster.StatusResponse, error)
 	mustEmbedUnimplementedAppmixerServer()
 }
 
@@ -78,8 +78,8 @@ type UnimplementedAppmixerServer struct {
 func (UnimplementedAppmixerServer) SayHello(context.Context, *AppRequest) (*AppResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SayHello not implemented")
 }
-func (UnimplementedAppmixerServer) GetStatus(context.Context, *statusmaster.StatusRequest) (*statusmaster.StatusResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetStatus not implemented")
+func (UnimplementedAppmixerServer) GetStatuses(context.Context, *statusmaster.StatusRequest) (*statusmaster.StatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetStatuses not implemented")
 }
 func (UnimplementedAppmixerServer) mustEmbedUnimplementedAppmixerServer() {}
 
@@ -112,20 +112,20 @@ func _Appmixer_SayHello_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Appmixer_GetStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Appmixer_GetStatuses_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(statusmaster.StatusRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AppmixerServer).GetStatus(ctx, in)
+		return srv.(AppmixerServer).GetStatuses(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Appmixer_GetStatus_FullMethodName,
+		FullMethod: Appmixer_GetStatuses_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AppmixerServer).GetStatus(ctx, req.(*statusmaster.StatusRequest))
+		return srv.(AppmixerServer).GetStatuses(ctx, req.(*statusmaster.StatusRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -142,8 +142,8 @@ var Appmixer_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Appmixer_SayHello_Handler,
 		},
 		{
-			MethodName: "GetStatus",
-			Handler:    _Appmixer_GetStatus_Handler,
+			MethodName: "GetStatuses",
+			Handler:    _Appmixer_GetStatuses_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

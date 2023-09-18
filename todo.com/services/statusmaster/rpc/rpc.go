@@ -4,15 +4,19 @@ import (
 	"context"
 	"fmt"
 
+	"gorm.io/gorm"
 	"todo.com/proto/statusmaster"
 )
 
 type StatusMasterServer struct {
 	statusmaster.StatusMasterServer
+	db *gorm.DB
 }
 
-func NewRPC() *StatusMasterServer {
-	return &StatusMasterServer{}
+func NewRPC(db *gorm.DB) *StatusMasterServer {
+	return &StatusMasterServer{
+		db: db,
+	}
 }
 
 func (s *StatusMasterServer) StatusList(ctx context.Context, req *statusmaster.StatusRequest) (*statusmaster.StatusResponse, error) {
