@@ -36,12 +36,13 @@ into-statusmaster:
 
 
 # ----------------------------------
-# Migrate
+# Database Operation
 # ----------------------------------
 db-migrate:
-	cd .docker && docker compose exec -d ${APP_APPMIXER} /bin/sh -c "go run /go/todo.com/app/cmd/main.go -m"
+	cd .docker && docker compose exec -d ${APP_APPMIXER} /bin/sh -c "go run /go/todo.com/app/cmd/main.go -d migrate"
 
-
+db-drop:
+	cd .docker && docker compose exec -d ${APP_APPMIXER} /bin/sh -c "go run /go/todo.com/app/cmd/main.go -d drop"
 # ----------------------------------
 # Run grpc on "background"
 # ----------------------------------

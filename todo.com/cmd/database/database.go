@@ -37,15 +37,12 @@ func Run(operate_type string) error {
 
 func newDB() (*Gorm, error) {
 	dbConn, err := database.NewDBConn(
-		database.NewWithOpt(
+		database.NewWithNoOpt(
 			config.DB_USER,
 			config.DB_PASSWORD,
 			config.DB_ADDR,
 			config.DB_NAME,
 			config.LOCATION,
-			&gorm.Config{
-				DisableForeignKeyConstraintWhenMigrating: true,
-			},
 		),
 	)
 
@@ -56,9 +53,26 @@ func newDB() (*Gorm, error) {
 }
 
 func (g *Gorm) migrate() error {
-	return g.AutoMigrate(&models.MCategories{})
+	err := g.AutoMigrate(
+		&models.MCategory{},
+		&models.MStatus{},
+		&models.User{},
+		&models.Task{},
+		&models.TaskHasMCategory{},
+	)
+	if err != nil {
+		return err
+	}
+	return nil
+	// return models.AddForeignKeyToTaskID(g.DB)
 }
 
 func (g *Gorm) dropTable() error {
-	return g.Migrator().DropTable(&models.MCategories{})
+	return g.Migrator().DropTable(
+		&models.MCategory{},
+		&models.MStatus{},
+		&models.User{},
+		&models.Task{},
+		&models.TaskHasMCategory{},
+	)
 }
