@@ -9,10 +9,12 @@ import (
 	"todo.com/infrastructure/database"
 )
 
+// Gorm is struct for *gorm.DB
 type Gorm struct {
 	*gorm.DB
 }
 
+// Run execute DB operation
 func Run(operate_type string) error {
 	db, err := newDB()
 	if err != nil {
@@ -35,6 +37,7 @@ func Run(operate_type string) error {
 	return nil
 }
 
+// neDB generate instance of Gorm
 func newDB() (*Gorm, error) {
 	dbConn, err := database.NewDBConn(
 		database.NewWithNoOpt(
@@ -52,21 +55,18 @@ func newDB() (*Gorm, error) {
 	return &Gorm{dbConn}, nil
 }
 
+// migrate is to create Tables
 func (g *Gorm) migrate() error {
-	err := g.AutoMigrate(
+	return g.AutoMigrate(
 		&models.MCategory{},
 		&models.MStatus{},
 		&models.User{},
 		&models.Task{},
 		&models.TaskHasMCategory{},
 	)
-	if err != nil {
-		return err
-	}
-	return nil
-	// return models.AddForeignKeyToTaskID(g.DB)
 }
 
+// dropTable is to delete tables
 func (g *Gorm) dropTable() error {
 	return g.Migrator().DropTable(
 		&models.MCategory{},

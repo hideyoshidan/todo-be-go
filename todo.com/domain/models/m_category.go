@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-// m_categories tables
+// MCategory is struct for m_categories
 type MCategory struct {
 	ID        uint32    `gorm:"type:int;primarykey"`
 	Name      string    `gorm:"type:varchar(255);not null"`

@@ -14,6 +14,7 @@ const (
 	DB_TYPE_DROP    = "drop"
 )
 
+// main accept command for any this service operations
 func main() {
 	var (
 		dbOperate = flag.String("d", "", "migrate flag")

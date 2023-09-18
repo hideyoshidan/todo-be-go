@@ -6,6 +6,8 @@ import (
 	"gorm.io/gorm"
 )
 
+// Task is struct for tasks table
+// Cascade is not set. Because it is too havy to delete when tasks which user has are alot
 type Task struct {
 	ID          uint64 `gorm:"primarykey"`
 	UserID      uint64

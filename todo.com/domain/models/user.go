@@ -6,6 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// User is struct for tasks users
 type User struct {
 	ID        uint64         `gorm:"primarykey"`
 	UserName  string         `gorm:"type:varchar(255);not null"`

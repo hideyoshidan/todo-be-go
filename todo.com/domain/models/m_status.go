@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-// m_statuses tables
+// MStatus is struct for m_statuses
 type MStatus struct {
 	ID        uint32    `gorm:"type:int;primarykey"`
 	Name      string    `gorm:"type:varchar(255);not null"`

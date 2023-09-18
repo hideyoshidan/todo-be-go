@@ -1,6 +1,7 @@
 # ----------------------------------
 # Container Name
 # ----------------------------------
+DB=app-db
 APP_APPMIXER=app-appmixer
 APP_STATUSMASTER=app-statusmaster
 
@@ -29,6 +30,8 @@ run-all-back:
 # ----------------------------------
 # Go into container
 # ----------------------------------
+minto-db:
+	cd .docker && docker compose exec ${DB} /bin/sh
 into-appmixer:
 	cd .docker && docker compose exec ${APP_APPMIXER} /bin/sh
 into-statusmaster:
