@@ -25,6 +25,7 @@ func main() {
 	tableOperateFlags := []string{DB_TYPE_MIGRATE, DB_TYPE_DROP}
 	if !slices.Contains(tableOperateFlags, *dbOperate) {
 		fmt.Printf("Nothing to run. Please set some option. Allowed options are '%s'\n", "-d")
+		return
 	}
 
 	if err := database.Run(*dbOperate); err != nil {
