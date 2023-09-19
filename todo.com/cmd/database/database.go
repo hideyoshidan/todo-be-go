@@ -58,21 +58,21 @@ func newDB() (*Gorm, error) {
 // migrate is to create Tables
 func (g *Gorm) migrate() error {
 	return g.AutoMigrate(
-		&models.MCategory{},
+		&models.Category{},
 		&models.MStatus{},
 		&models.User{},
 		&models.Task{},
-		&models.TaskHasMCategory{},
+		&models.TaskHasCategory{},
 	)
 }
 
 // dropTable is to delete tables
 func (g *Gorm) dropTable() error {
 	return g.Migrator().DropTable(
-		&models.MCategory{},
+		&models.Category{},
 		&models.MStatus{},
 		&models.User{},
 		&models.Task{},
-		&models.TaskHasMCategory{},
+		&models.TaskHasCategory{},
 	)
 }
