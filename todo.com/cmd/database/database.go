@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"gorm.io/gorm"
+	"todo.com/cmd/database/seeders"
 	"todo.com/config"
 	"todo.com/domain/models"
 	"todo.com/infrastructure/database"
@@ -28,6 +29,8 @@ func Run(operate_type string) error {
 		err = db.migrate()
 	case "drop":
 		err = db.dropTable()
+	case "seed":
+		err = seeders.Run(db.DB)
 	}
 
 	if err != nil {
