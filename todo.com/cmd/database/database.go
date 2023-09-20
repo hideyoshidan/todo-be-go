@@ -10,6 +10,12 @@ import (
 	"todo.com/infrastructure/database"
 )
 
+const (
+	DB_TYPE_MIGRATE = "migrate"
+	DB_TYPE_DROP    = "drop"
+	DB_SEED         = "seed"
+)
+
 // Gorm is struct for *gorm.DB
 type Gorm struct {
 	*gorm.DB
@@ -25,11 +31,11 @@ func Run(operate_type string) error {
 
 	err = nil
 	switch operate_type {
-	case "migrate":
+	case DB_TYPE_MIGRATE:
 		err = db.migrate()
-	case "drop":
+	case DB_TYPE_DROP:
 		err = db.dropTable()
-	case "seed":
+	case DB_SEED:
 		err = seeders.Run(db.DB)
 	}
 

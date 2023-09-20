@@ -28,7 +28,7 @@ func NewWithNoOpt(user, password, addr, database, location string) *DBConfWithNo
 }
 
 func (conf *DBConfWithNoOpt) connectDB() (db *gorm.DB, err error) {
-	tzone, err := time.LoadLocation(conf.dbConf.location)
+	tzone, err := time.LoadLocation("Local")
 	if err != nil {
 		log.Fatalln("DB could not be connected.", err)
 		return nil, err

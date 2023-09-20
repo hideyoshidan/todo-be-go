@@ -8,12 +8,6 @@ import (
 	"todo.com/cmd/database"
 )
 
-const (
-	DB_TYPE_MIGRATE = "migrate"
-	DB_TYPE_DROP    = "drop"
-	DB_SEED         = "seed"
-)
-
 // main accept command for any this service operations
 func main() {
 	var (
@@ -28,13 +22,13 @@ func main() {
 
 	var err error
 	// DB operation
-	tableOperateFlags := []string{DB_TYPE_MIGRATE, DB_TYPE_DROP}
+	tableOperateFlags := []string{database.DB_TYPE_MIGRATE, database.DB_TYPE_DROP}
 	if slices.Contains(tableOperateFlags, *dbOperate) {
 		opes["MIGDROP"] = true
 		err = dbOperation(*dbOperate)
 	}
 
-	seederOperateFlags := []string{DB_SEED}
+	seederOperateFlags := []string{database.DB_SEED}
 	if slices.Contains(seederOperateFlags, *dbSeed) {
 		opes["SEED"] = true
 		err = dbOperation(*dbSeed)

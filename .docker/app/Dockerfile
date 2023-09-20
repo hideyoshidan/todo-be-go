@@ -1,6 +1,10 @@
 # gRPC Greeting
 FROM golang:1.20.0-alpine3.17 AS base
 RUN apk update && apk add git
+RUN apk --update add tzdata && \
+    cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
+    apk del tzdata && \
+    rm -rf /var/cache/apk/*
 
 
 ###################################

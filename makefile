@@ -30,7 +30,7 @@ run-all-back:
 # ----------------------------------
 # Go into container
 # ----------------------------------
-minto-db:
+into-db:
 	cd .docker && docker compose exec ${DB} /bin/sh
 into-appmixer:
 	cd .docker && docker compose exec ${APP_APPMIXER} /bin/sh
@@ -46,6 +46,9 @@ db-migrate:
 
 db-drop:
 	cd .docker && docker compose exec -d ${APP_APPMIXER} /bin/sh -c "go run /go/todo.com/app/cmd/main.go -d drop"
+
+db-seed:
+	cd .docker && docker compose exec -d ${APP_APPMIXER} /bin/sh -c "go run /go/todo.com/app/cmd/main.go -s seed"
 # ----------------------------------
 # Run grpc on "background"
 # ----------------------------------
