@@ -12,6 +12,8 @@ type Appmixer struct {
 	appmixer.AppmixerServer
 }
 
+// そのうちError responseをカスタマイズしたい。
+// https://soichisumi.net/2019/04/grpc-custom-error-response/
 func NewRPC(sClient statusmaster.StatusMasterClient) *Appmixer {
 	return &Appmixer{
 		sClient: sClient,
@@ -26,11 +28,8 @@ func (s *Appmixer) SayHello(ctx context.Context, req *appmixer.AppRequest) (*app
 
 func (s *Appmixer) GetStatuses(ctx context.Context, req *statusmaster.StatusRequest) (*statusmaster.StatusResponse, error) {
 	res, err := s.sClient.StatusList(ctx, &statusmaster.StatusRequest{})
-
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
-
-	// return res, nil
 }

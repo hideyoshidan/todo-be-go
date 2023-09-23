@@ -5,8 +5,6 @@ package statusmaster;
 
 option go_package = "todo.com/proto/statusmaster";
 
-import "buf/validate/validate.proto";
-
 service StatusMaster {
   rpc StatusList(StatusRequest) returns (StatusResponse){}
 }

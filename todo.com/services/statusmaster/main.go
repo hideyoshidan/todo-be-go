@@ -19,15 +19,13 @@ func main() {
 	log.Print("StatusMaster Server Starting")
 	listenProt, err := net.Listen("tcp", fmt.Sprintf(":%v", os.Getenv("RPC_PORT")))
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
-		os.Exit(1)
+		log.Fatalln(fmt.Sprintf("failed to listen: %v", err))
 	}
 
 	log.Print("DB set up is started")
 	db, err := connDB()
 	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
+		log.Fatalln(err)
 	}
 
 	grpc := grpc.NewServer()
@@ -36,8 +34,7 @@ func main() {
 	reflection.Register(grpc)
 
 	if err := grpc.Serve(listenProt); err != nil {
-		log.Fatal(err)
-		os.Exit(1)
+		log.Fatalln(err)
 	}
 }
 

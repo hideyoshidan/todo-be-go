@@ -1,8 +1,7 @@
 package database
 
 import (
-	"log"
-
+	"golang.org/x/exp/slog"
 	"gorm.io/gorm"
 	"todo.com/cmd/database/seeders"
 	"todo.com/config"
@@ -25,7 +24,7 @@ type Gorm struct {
 func Run(operate_type string) error {
 	db, err := newDB()
 	if err != nil {
-		log.Fatalf("Failed to establish DB connection : %v", err)
+		slog.Error("Failed to establish DB connection : %v", err)
 		return err
 	}
 

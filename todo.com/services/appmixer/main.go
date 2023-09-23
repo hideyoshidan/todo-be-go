@@ -9,6 +9,7 @@ import (
 	"os"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	"golang.org/x/exp/slog"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"todo.com/infrastructure/rpc_client"
@@ -22,7 +23,8 @@ func main() {
 	// Create a listener on TCP port
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%v", os.Getenv("RPC_PORT")))
 	if err != nil {
-		log.Fatalln("Failed to listen:", err)
+		slog.Error("DB could not be connected. %v", err)
+		os.Exit(1)
 	}
 
 	sConn := initConnectToStatusMaster()
@@ -45,12 +47,13 @@ func main() {
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	)
 	if err != nil {
-		log.Fatalln("Failed to dial server:", err)
+		slog.Error("Failed to dial server:", err)
+		os.Exit(1)
 	}
 
 	log.Print("Appmixer grpc server waiting proxy...")
-
 	mux := runtime.NewServeMux()
+
 	err = pb.RegisterAppmixerHandler(context.Background(), mux, conn)
 	gwServer := &http.Server{
 		Addr:    fmt.Sprintf(":%v", os.Getenv("GATEWAY_PORT")),

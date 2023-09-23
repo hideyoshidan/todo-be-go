@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/go-sql-driver/mysql"
+	"golang.org/x/exp/slog"
 	driver "gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	ct "todo.com/config"
@@ -30,7 +31,7 @@ func NewWithNoOpt(user, password, addr, database, location string) *DBConfWithNo
 func (conf *DBConfWithNoOpt) connectDB() (db *gorm.DB, err error) {
 	tzone, err := time.LoadLocation("Local")
 	if err != nil {
-		log.Fatalln("DB could not be connected.", err)
+		slog.Error("DB could not be connected. %v", err)
 		return nil, err
 	}
 
@@ -47,7 +48,7 @@ func (conf *DBConfWithNoOpt) connectDB() (db *gorm.DB, err error) {
 
 	db, err = gorm.Open(driver.Open(c.FormatDSN()), &gorm.Config{})
 	if err != nil {
-		log.Fatalln("DB could not be connected.", err)
+		slog.Error("DB could not be connected. %v", err)
 		return nil, err
 	}
 

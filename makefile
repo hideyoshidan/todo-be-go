@@ -71,6 +71,12 @@ proto-gen:
         --go-grpc_out=. \
         proto/services/*
 
+proto-gen-error:
+	protoc -I ./proto \
+		--go_out=. \
+        --go-grpc_out=. \
+        proto/*
+
 # grpc-gateway builder
 proto-gw:
 	protoc -I ./proto \

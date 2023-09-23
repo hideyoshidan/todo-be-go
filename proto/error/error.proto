@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package error;
+
+option go_package = "todo.com/proto/error";
+
+message ErrorCode {
+    string ErrorCode = 1;
+}

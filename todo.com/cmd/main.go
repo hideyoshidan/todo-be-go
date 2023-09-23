@@ -41,6 +41,7 @@ func main() {
 
 	if !opes["MIGDROP"] && !opes["SEED"] {
 		fmt.Printf("Nothing to run. Please set some option. Allowed options are '%s'\n", "-d")
+		return
 	}
 
 	fmt.Printf("\x1b[32m%s\x1b[0m finished to run your operation.\n", "Successfully")
