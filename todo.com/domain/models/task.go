@@ -17,8 +17,8 @@ type Task struct {
 	Deadline    time.Time `gorm:"type:date;"`
 	MStatusID   uint32
 	MStatus     MStatus
-	CreatedAt   time.Time `gorm:"type:datetime(6);not null"`
-	UpdatedAt   time.Time `gorm:"type:datetime(6)"`
+	CreatedAt   time.Time `gorm:"type:datetime;not null"`
+	UpdatedAt   time.Time `gorm:"type:datetime"`
 	DeletedAt   gorm.DeletedAt
 }
 
@@ -29,9 +29,9 @@ type Task struct {
 // 	`description` text COLLATE utf8mb4_general_ci,
 // 	`deadline` date DEFAULT NULL,
 // 	`m_status_id` int DEFAULT NULL,
-// 	`created_at` datetime(6) NOT NULL,
-// 	`updated_at` datetime(6) DEFAULT NULL,
-// 	`deleted_at` datetime(6) DEFAULT NULL,
+// 	`created_at` datetime NOT NULL,
+// 	`updated_at` datetime DEFAULT NULL,
+// 	`deleted_at` datetime DEFAULT NULL,
 // 	PRIMARY KEY (`id`),
 // 	KEY `fk_tasks_user` (`user_id`),
 // 	KEY `fk_tasks_m_status` (`m_status_id`),

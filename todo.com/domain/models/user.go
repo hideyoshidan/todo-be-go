@@ -12,8 +12,8 @@ type User struct {
 	UserName  string         `gorm:"type:varchar(255);not null"`
 	Email     string         `gorm:"type:varchar(255);not null;index:unique_email_deleted_at,unique"`
 	Passowrd  string         `gorm:"type:varchar(255);not null;"`
-	CreatedAt time.Time      `gorm:"type:datetime(6);not null"`
-	UpdatedAt time.Time      `gorm:"type:datetime(6)"`
+	CreatedAt time.Time      `gorm:"type:datetime;not null"`
+	UpdatedAt time.Time      `gorm:"type:datetime"`
 	DeletedAt gorm.DeletedAt `gorm:"index:unique_email_deleted_at,unique"`
 }
 
@@ -22,9 +22,9 @@ type User struct {
 // 	`user_name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
 // 	`email` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
 // 	`passowrd` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-// 	`created_at` datetime(6) NOT NULL,
-// 	`updated_at` datetime(6) DEFAULT NULL,
-// 	`deleted_at` datetime(6) DEFAULT NULL,
+// 	`created_at` datetime NOT NULL,
+// 	`updated_at` datetime DEFAULT NULL,
+// 	`deleted_at` datetime DEFAULT NULL,
 // 	PRIMARY KEY (`id`),
 // 	UNIQUE KEY `unique_email_deleted_at` (`email`,`deleted_at`)
 //   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
