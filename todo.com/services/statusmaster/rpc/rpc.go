@@ -2,6 +2,7 @@ package rpc
 
 import (
 	"context"
+	"errors"
 	"log"
 
 	"golang.org/x/exp/slog"
@@ -10,6 +11,7 @@ import (
 	"gorm.io/gorm"
 	"todo.com/config"
 	"todo.com/domain/repositories"
+	"todo.com/lib"
 	"todo.com/proto/statusmaster"
 )
 
@@ -24,16 +26,20 @@ func NewRPC(db *gorm.DB) *StatusMasterServer {
 	}
 }
 
+func (s *StatusMasterServer) errorResponse(code codes.Code, err error) error {
+	return status.New(code, err.Error()).Err()
+}
+
 // StatusList gets all status from Database
 func (s *StatusMasterServer) StatusList(ctx context.Context, req *statusmaster.StatusRequest) (*statusmaster.StatusResponse, error) {
 	log.Printf("StatusList is ENTRY")
 	mStatuses, err := s.repository.FetchAll()
 	if err != nil {
 		slog.Error("Error occurred while fetching data. ERROR : %v", err)
-		return nil, status.New(codes.Internal, config.ERROR_FETCH_DATA).Err()
+		return nil, lib.ErrorResponse(codes.Internal, err)
 	}
 
-	// making response
+	// make response
 	var response []*statusmaster.Status
 	for _, r := range mStatuses {
 		status := &statusmaster.Status{
@@ -43,6 +49,11 @@ func (s *StatusMasterServer) StatusList(ctx context.Context, req *statusmaster.S
 		}
 
 		response = append(response, status)
+	}
+
+	// if no data, return error
+	if len(response) < 1 {
+		return nil, lib.ErrorResponse(codes.Internal, errors.New(config.ERROR_NO_DATA))
 	}
 
 	return &statusmaster.StatusResponse{
