@@ -1,12 +1,18 @@
 package database
 
 import (
-	"log"
-
+	"golang.org/x/exp/slog"
 	"gorm.io/gorm"
+	"todo.com/cmd/database/seeders"
 	"todo.com/config"
 	"todo.com/domain/models"
 	"todo.com/infrastructure/database"
+)
+
+const (
+	DB_TYPE_MIGRATE = "migrate"
+	DB_TYPE_DROP    = "drop"
+	DB_SEED         = "seed"
 )
 
 // Gorm is struct for *gorm.DB
@@ -18,16 +24,18 @@ type Gorm struct {
 func Run(operate_type string) error {
 	db, err := newDB()
 	if err != nil {
-		log.Fatalf("Failed to establish DB connection : %v", err)
+		slog.Error("Failed to establish DB connection : %v", err)
 		return err
 	}
 
 	err = nil
 	switch operate_type {
-	case "migrate":
+	case DB_TYPE_MIGRATE:
 		err = db.migrate()
-	case "drop":
+	case DB_TYPE_DROP:
 		err = db.dropTable()
+	case DB_SEED:
+		err = seeders.Run(db.DB)
 	}
 
 	if err != nil {

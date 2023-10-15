@@ -30,7 +30,7 @@ run-all-back:
 # ----------------------------------
 # Go into container
 # ----------------------------------
-minto-db:
+into-db:
 	cd .docker && docker compose exec ${DB} /bin/sh
 into-appmixer:
 	cd .docker && docker compose exec ${APP_APPMIXER} /bin/sh
@@ -46,6 +46,9 @@ db-migrate:
 
 db-drop:
 	cd .docker && docker compose exec -d ${APP_APPMIXER} /bin/sh -c "go run /go/todo.com/app/cmd/main.go -d drop"
+
+db-seed:
+	cd .docker && docker compose exec -d ${APP_APPMIXER} /bin/sh -c "go run /go/todo.com/app/cmd/main.go -s seed"
 # ----------------------------------
 # Run grpc on "background"
 # ----------------------------------
@@ -68,6 +71,12 @@ proto-gen:
         --go-grpc_out=. \
         proto/services/*
 
+proto-gen-error:
+	protoc -I ./proto \
+		--go_out=. \
+        --go-grpc_out=. \
+        proto/*
+
 # grpc-gateway builder
 proto-gw:
 	protoc -I ./proto \
@@ -75,12 +84,3 @@ proto-gw:
 		--go-grpc_out ./ \
 		--grpc-gateway_out ./ \
 		./proto/gateway/appmixer.proto
-
-# proto-gw:
-# 	protoc -I ./todo.com/proto \
-# 		--go_out=./ \
-# 		--go-grpc_out=. \
-# 		--grpc-gateway_out=. \
-# 		--validate_out="lang=go:." \
-# 		--plugin=protoc-gen-grpc-gateway=${GOBIN}/protoc-gen-grpc-gateway \
-# 		proto/gateway/appmixer.proto

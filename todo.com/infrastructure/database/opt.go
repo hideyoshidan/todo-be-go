@@ -1,9 +1,9 @@
 package database
 
 import (
-	"log"
 	"time"
 
+	"golang.org/x/exp/slog"
 	"gorm.io/gorm"
 	ct "todo.com/config"
 
@@ -31,7 +31,7 @@ func NewWithOpt(user, password, addr, database, location string, opt *gorm.Confi
 func (conf *DBConfWithOpt) connectDB() (db *gorm.DB, err error) {
 	tzone, err := time.LoadLocation(conf.dbConf.location)
 	if err != nil {
-		log.Fatalln("DB could not be connected.", err)
+		slog.Error("DB could not be connected. %v", err)
 		return nil, err
 	}
 
@@ -48,7 +48,7 @@ func (conf *DBConfWithOpt) connectDB() (db *gorm.DB, err error) {
 
 	db, err = gorm.Open(driver.Open(c.FormatDSN()), conf.dbConf.opt)
 	if err != nil {
-		log.Fatalln("DB could not be connected.", err)
+		slog.Error("DB could not be connected. %v", err)
 		return nil, err
 	}
 

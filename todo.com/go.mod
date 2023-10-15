@@ -5,6 +5,7 @@ go 1.20
 require (
 	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.31.0-20230830185350-7a34d6557349.1
 	github.com/go-sql-driver/mysql v1.7.1
+	github.com/grpc-ecosystem/grpc-gateway v1.16.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.17.1
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9
 	google.golang.org/genproto/googleapis/api v0.0.0-20230822172742-b8732ec3820d

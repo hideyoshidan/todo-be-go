@@ -2,8 +2,8 @@ package rpc_client
 
 import (
 	"fmt"
-	"log"
 
+	"golang.org/x/exp/slog"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -58,7 +58,7 @@ func (c *RPCClient) InitConnection() (*grpc.ClientConn, error) {
 		grpc.WithBlock(),
 	)
 	if err != nil {
-		log.Fatal(err)
+		slog.Error("RPC Client could not be connected. %v", err)
 		return nil, err
 	}
 

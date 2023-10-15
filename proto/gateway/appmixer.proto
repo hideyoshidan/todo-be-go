@@ -21,8 +21,7 @@ service Appmixer {
   // /statuses
   rpc GetStatuses (statusmaster.StatusRequest) returns (statusmaster.StatusResponse) {
     option (google.api.http) = {
-      post: "/statuses"
-      body: "*"
+      get: "/statuses"
     };
   }
 }
